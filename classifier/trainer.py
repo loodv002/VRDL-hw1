@@ -94,6 +94,10 @@ class Trainer:
 
         min_val_loss = float('inf')
         val_loss_increase_count = 0
+        train_losses = []
+        train_accuracies = []
+        val_losses = []
+        val_accuracies = []
 
         for epoch in range(max_epoches):
             train_loss, train_accuracy = self._train_epoch(
@@ -114,6 +118,11 @@ class Trainer:
             print(f'Epoch {epoch} val loss: {val_loss:.3f}')
             print(f'Epoch {epoch} val accuracy: {val_accuracy * 100:.3f}%')
 
+            train_losses.append(train_loss)
+            val_losses.append(val_loss)
+            train_accuracies.append(train_accuracy)
+            val_accuracies.append(val_accuracy)
+
             if scheduler: scheduler.step()
 
             model_path = f'{checkpoint_dir}/{model.model_name}_epoch_{epoch}.pth'
@@ -128,3 +137,8 @@ class Trainer:
             if val_loss_increase_count >= 2 and early_stop:
                 print('Loss increased, training stopped.')
                 break
+
+        print(f'Train losses: {train_losses}')
+        print(f'Val losses: {val_losses}')
+        print(f'Train accuracies: {train_accuracies}')
+        print(f'Val accuracies: {val_accuracies}')
