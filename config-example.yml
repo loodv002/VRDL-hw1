@@ -1,3 +1,5 @@
+# If relative path given, it should relative to working directory (instead of project root, etc).
+# Those directories should be manually created before executing programs.
 path:
   # Data root directory, should include "train", "val" and "test" sub-directory.
   DATA_DIR: "./data"
@@ -15,4 +17,6 @@ train:
   BATCH_SIZE: 32
   LEARNING_RATE: 0.0001
   MAX_EPOCHES: 10
+
+  # If enabled, training will stop if the validation loss increases in the last two epochs.
   EARLY_STOP: true
