@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torchvision
-import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 
 import numpy as np
@@ -11,7 +10,7 @@ import yaml
 import pickle
 import sys
 
-from classifier import Classifier, Trainer
+from classifier import Classifier, Trainer, image_transform
 from utils import check_n_parameters
 
 if len(sys.argv) < 2:
@@ -37,15 +36,6 @@ BATCH_SIZE = config['train']['BATCH_SIZE']
 LEARNING_RATE = config['train']['LEARNING_RATE']
 MAX_EPOCHES = config['train']['MAX_EPOCHES']
 EARLY_STOP = config['train']['EARLY_STOP']
-
-image_transform = transforms.Compose([
-    transforms.Resize((224, 224)),
-    transforms.ToTensor(),
-    transforms.Normalize(
-        mean=[0.485, 0.456, 0.406], 
-        std=[0.229, 0.224, 0.225],
-    ),
-])
 
 train_set = torchvision.datasets.ImageFolder(root=TRAIN_DIR, transform=image_transform)
 val_set = torchvision.datasets.ImageFolder(root=VAL_DIR, transform=image_transform)
