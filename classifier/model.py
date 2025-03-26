@@ -25,6 +25,6 @@ class Classifier(nn.Module):
     @classmethod
     def load_checkpoint(cls, n_classes: int, checkpoint_path: str):
         model = cls(n_classes)
-        model.load_state_dict(torch.load(checkpoint_path))
-        model.model_name = Path(checkpoint_path).stem
+        model.load_state_dict(torch.load(checkpoint_path, weights_only=True))
+        model.model_name = Path(checkpoint_path).stem.split('_')[0]
         return model
