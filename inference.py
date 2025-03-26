@@ -23,6 +23,10 @@ checkpoint = args.checkpoint
 print(f'Config file: {config_path}')
 print(f'Checkpoint: {checkpoint}')
 
+if not os.path.exists(config_path):
+    print(f'Config file "{config_path}" not exist.')
+    exit()
+
 with open(config_path, 'r') as f:
     config = yaml.safe_load(f)
 

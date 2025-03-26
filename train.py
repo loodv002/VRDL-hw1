@@ -4,20 +4,24 @@ import torch.optim as optim
 import torchvision
 from torch.utils.data import DataLoader
 
+import argparse
 import numpy as np
 from sklearn.utils.class_weight import compute_class_weight 
 import yaml
 import pickle
-import sys
+import os
 
 from classifier import Classifier, Trainer, image_transform
 from utils import check_n_parameters
 
-if len(sys.argv) < 2:
-    print('Config file not given, assume "./config.yml"')
-    config_path = './config.yml'
-else:
-    config_path = sys.argv[2]
+parser = argparse.ArgumentParser()
+parser.add_argument('--config', default='./config.yml', help='config file path')
+args = parser.parse_args()
+
+config_path = args.config
+if not os.path.exists(config_path):
+    print(f'Config file "{config_path}" not exist.')
+    exit()
 
 with open(config_path, 'r') as f:
     config = yaml.safe_load(f)
