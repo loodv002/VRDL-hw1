@@ -85,11 +85,15 @@ class Trainer:
               criterion: nn.Module,
               optimizer: optim.Optimizer,
               scheduler: Optional[optim.lr_scheduler.LRScheduler] = None,
+              early_stop: bool = True,
               ):
         
         print(f'Train model by {self.device}')
 
         model = model.to(self.device)
+
+        min_val_loss = float('inf')
+        val_loss_increase_count = 0
 
         for epoch in range(max_epoches):
             train_loss, train_accuracy = self._train_epoch(
@@ -105,13 +109,22 @@ class Trainer:
                 criterion,
             )
 
-            if scheduler: scheduler.step()
-
-            model_path = f'{checkpoint_dir}/{model.model_name}_epoch_{epoch}.pth'
-            torch.save(model.state_dict(), model_path)
-
             print(f'Epoch {epoch} train loss: {train_loss:.3f}')
             print(f'Epoch {epoch} train accuracy: {train_accuracy * 100:.3f}%')
             print(f'Epoch {epoch} val loss: {val_loss:.3f}')
             print(f'Epoch {epoch} val accuracy: {val_accuracy * 100:.3f}%')
 
+            if scheduler: scheduler.step()
+
+            model_path = f'{checkpoint_dir}/{model.model_name}_epoch_{epoch}.pth'
+            torch.save(model.state_dict(), model_path)
+
+            if val_loss <= min_val_loss:
+                min_val_loss = val_loss
+                val_loss_increase_count = 0
+            else:
+                val_loss_increase_count += 1
+
+            if val_loss_increase_count >= 2 and early_stop:
+                print('Loss increased, training stopped.')
+                break

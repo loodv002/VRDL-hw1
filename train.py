@@ -10,7 +10,6 @@ from sklearn.utils.class_weight import compute_class_weight
 import yaml
 import pickle
 import sys
-import os
 
 from classifier import Classifier, Trainer
 from utils import check_n_parameters
@@ -37,6 +36,7 @@ N_CLASSES = config['global']['N_CLASSES']
 BATCH_SIZE = config['train']['BATCH_SIZE']
 LEARNING_RATE = config['train']['LEARNING_RATE']
 MAX_EPOCHES = config['train']['MAX_EPOCHES']
+EARLY_STOP = config['train']['EARLY_STOP']
 
 image_transform = transforms.Compose([
     transforms.Resize((224, 224)),
@@ -80,4 +80,5 @@ trainer.train(
       criterion,
       optimizer,
       scheduler,
+      EARLY_STOP,
 )
