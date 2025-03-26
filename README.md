@@ -41,6 +41,6 @@ A ResNeXt-based image classifier, with training and inference code.
   ```
   The checkpoint name should be the stem of `.pth` file in `MODEL_DIR`, with formate `{date}-{time}_epoch_{epoch}`. For example, `20250326-144741_epoch_2` (without .pth).
 
-### Performance:
+## Performance:
 
   The highest accuracy achieved is `0.95` in public testing dataset.
