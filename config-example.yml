@@ -1,0 +1,17 @@
+path:
+  # Data root directory, should include "train", "val" and "test" sub-directory.
+  DATA_DIR: "./data"
+
+  # Model checkpoint and category-id mapping file directory.
+  MODEL_DIR: "./model"
+
+  # Inference file (both .csv and .zip) output directory.
+  OUTPUT_DIR: "./output"
+
+global:
+  N_CLASSES: 100
+
+train: 
+  BATCH_SIZE: 32
+  LEARNING_RATE: 0.0001
+  MAX_EPOCHES: 10
